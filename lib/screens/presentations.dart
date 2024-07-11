@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ufo_inter/screens/widget.dart';
@@ -79,11 +81,15 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(
                     height: 15,
                   ),
-                  const ImgHeightWidth(
-                    height: 333,
-                    imageNmae: 'Group 271.png',
-                    width: 329,
-                  ),
+                  // const ImgHeightWidth(
+                  //   height: 333,
+                  //   imageNmae: 'Group 271.png',
+                  //   width: 329,
+                  // ),
+                  Container(
+                      height: 350,
+                      width: double.infinity,
+                      child: Center(child: SpiralStack())),
                   const SizedBox(
                     height: 15,
                   ),
@@ -141,5 +147,41 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class SpiralStack extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: _buildSpiral(context),
+    );
+  }
+
+  List<Widget> _buildSpiral(BuildContext context) {
+    List<Widget> widgets = [];
+    double angle = 0;
+    double radius = 0;
+    double centerX = MediaQuery.of(context).size.width / 2;
+    double centerY = MediaQuery.of(context).size.height / 7;
+
+    for (int i = 0; i < 20; i++) {
+      radius += 15;
+      angle += 0.75;
+
+      double x = centerX + radius * cos(angle);
+      double y = centerY + radius * sin(angle);
+
+      widgets.add(Positioned(
+        left: x,
+        top: y,
+        child: const CircleAvatar(
+          child: const FlutterLogo(),
+          radius: 25, // Adjust the radius of the image circle
+        ),
+      ));
+    }
+
+    return widgets;
   }
 }
